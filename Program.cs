@@ -1,4 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Linq;
 
 namespace OOP_Assignment_2_Code_Review
 {
@@ -6,7 +11,80 @@ namespace OOP_Assignment_2_Code_Review
     {
         static void Main(string[] args)
         {
-            
+            DirectoryInfo d = new DirectoryInfo(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents"));
+            FileInfo[] Files = d.GetFiles("*.txt");
+            FileInfo filechoice1 = Files[0];
+            int count = 1,UserFileChoice1 = 0, UserFileChoice2 =0;
+            bool leave = false;
+            Console.WriteLine("Good Morning, I am in your documents folder, what txt files would you like to compare ");
+            foreach (FileInfo txts in Files)
+            {
+                string[] justName= txts.ToString().Split("\\");
+                Console.Write($"{count}.{justName[justName.Length-1]}, ");
+                count++;
+            }
+            Console.WriteLine("\n Please enter the number");
+            while (!leave)
+            {
+                try
+                {
+                    Console.WriteLine("Select the first file:");
+                    UserFileChoice1 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Select the second:");
+                    UserFileChoice2 = Convert.ToInt32(Console.ReadLine());
+                    leave = true;
+                }
+
+                catch
+                {
+                    Console.WriteLine("I'm Sorry there has been an error please enter it again");
+                }
+            }
+
+            List<string> FirstFile = new List<string> (File.ReadAllLines(Files[UserFileChoice1 - 1].ToString()));
+            List<string> SecondFile = new List<string> (File.ReadAllLines(Files[UserFileChoice2 - 1].ToString()));
+
+
+            Console.WriteLine("Do you want the filter to be case sensitive? (Y/N)");
+            leave = false;
+            while(!leave)
+            {
+                string caseSense = Console.ReadLine();
+                if (caseSense.ToLower().Trim() == "y" || caseSense.ToLower().Trim() == "n")
+                {
+                    leave = true;
+                    FirstFile = FirstFile.Select(x => x.ToLower()).ToList();
+                    SecondFile = SecondFile.Select(x => x.ToLower()).ToList();
+                }
+
+                else
+                    Console.WriteLine("there has been an error please try again");
+            }
+            Txt_File First = new Txt_File(FirstFile);
+            Txt_File Second = new Txt_File(SecondFile);
+
+            if(First.length == Second.length)
+            {
+                foreach(var key in First.Get_Dictionary())
+                {
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("The two files are different ");
+            }
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 }
