@@ -15,7 +15,7 @@ namespace OOP_Assignment_2_Code_Review
             FileInfo[] Files = d.GetFiles("*.txt");
             FileInfo filechoice1 = Files[0];
             int count = 1,UserFileChoice1 = 0, UserFileChoice2 =0;
-            bool leave = false;
+            bool leave = false, failed = false;
             Console.WriteLine("Good Morning, I am in your documents folder, what txt files would you like to compare ");
             foreach (FileInfo txts in Files)
             {
@@ -53,8 +53,12 @@ namespace OOP_Assignment_2_Code_Review
                 if (caseSense.ToLower().Trim() == "y" || caseSense.ToLower().Trim() == "n")
                 {
                     leave = true;
-                    FirstFile = FirstFile.Select(x => x.ToLower()).ToList();
-                    SecondFile = SecondFile.Select(x => x.ToLower()).ToList();
+                    if(caseSense.ToLower().Trim() == "y")
+                    {
+                        FirstFile = FirstFile.Select(x => x.ToLower()).ToList();
+                        SecondFile = SecondFile.Select(x => x.ToLower()).ToList();
+                    }
+                    
                 }
 
                 else
@@ -62,29 +66,39 @@ namespace OOP_Assignment_2_Code_Review
             }
             Txt_File First = new Txt_File(FirstFile);
             Txt_File Second = new Txt_File(SecondFile);
-
-            if(First.length == Second.length)
+            List<(string,int)> SecList= Second.Get_List(),FirList = First.Get_List();
+            try
             {
-                foreach(var key in First.Get_Dictionary())
+                for (int i = 0; i <= SecList.Count(); i++)
                 {
-
+                    if (SecList[i] != FirList[i])
+                    {
+                        Console.WriteLine("The Files are not the same");
+                        failed = true;
+                    }
+                }
+                if (!failed)
+                {
+                    Console.WriteLine("the two files are the same!!!");
                 }
             }
-            else
+            catch
             {
-                Console.WriteLine("The two files are different ");
+                Console.WriteLine("the files are not the same");
             }
-
-
-
-
-
-
-
-
-
-
-
+            
         }
+
+
+
+
+
+
+
+
+
+
+
+    }
     }
 }

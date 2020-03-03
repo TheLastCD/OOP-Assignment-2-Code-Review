@@ -10,15 +10,16 @@ namespace OOP_Assignment_2_Code_Review
     {
         List<string> file;
         public int length;
-        Dictionary<string, int> compressedFile;
+
 
         public Txt_File(List<string> f)
         {
             file = f;
             length = f.Count;
         }
-        public Dictionary<string, int> Get_Dictionary()
+        public List<(string, int)> Get_List()
         {
+            Dictionary<string, int> compressedFile = new Dictionary<string, int>();
             foreach (string word in file)
             {
                 if (compressedFile.ContainsKey(word))
@@ -30,7 +31,12 @@ namespace OOP_Assignment_2_Code_Review
                     compressedFile.Add(word, 1);
                 }
             }
-            return compressedFile;
+            List<(string, int)> compressedlist = new List<(string, int)>();
+            foreach(var entry in compressedFile)
+            {
+                compressedlist.Add((entry.Key,entry.Value));
+            }
+            return compressedlist;
         }
 
     }
