@@ -20,22 +20,28 @@ namespace OOP_Assignment_2_Code_Review
         public List<(string, int)> Get_List()
         {
             Dictionary<string, int> compressedFile = new Dictionary<string, int>();
-            foreach (string word in file)
+            foreach (string paragraphs in file)
             {
-                if (compressedFile.ContainsKey(word))
+                string[] words = paragraphs.Split();
+                foreach(string word in words)
                 {
-                    compressedFile[word] += 1;
+                    if (compressedFile.ContainsKey(word))
+                    {
+                        compressedFile[word] += 1;
+                    }
+                    else
+                    {
+                        compressedFile.Add(word, 1);
+                    }
                 }
-                else
-                {
-                    compressedFile.Add(word, 1);
-                }
+               
             }
             List<(string, int)> compressedlist = new List<(string, int)>();
             foreach(var entry in compressedFile)
             {
                 compressedlist.Add((entry.Key,entry.Value));
             }
+
             return compressedlist;
         }
 
