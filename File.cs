@@ -17,6 +17,10 @@ namespace OOP_Assignment_2_Code_Review
             file = f;
             length = f.Count;
         }
+
+        //Method Name: Get_List
+        //Return: List<(string,int)>
+        //Puporse: to compress the file using a lossless form of text compression
         public List<(string, int)> Get_List()
         {
             Dictionary<string, int> compressedFile = new Dictionary<string, int>();
